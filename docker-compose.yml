@@ -1,23 +1,33 @@
 version: '3'
+
 services:
+  web:
+    build: .
+    tty: true
+    # command: "yarn install && bundle install && bundle exec rails s -b '0.0.0.0'"
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/dog_find_partner
+    depends_on:
+      - db
+    links:
+      - db
+    environment:
+      - RAILS_ENV=${ENV}
+      #- RAILS_MASTER_KEY=${RAILS_MASTER_KEY_ADMIN}
+
   db:
     image: mysql:8.0
-    env_file: docker/.local_env
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: dog_find_partner
+      MYSQL_USER: dog_find_partner
+      MYSQL_PASSWORD: dog_find_partner
+      TZ: Asia/Tokyo
     ports:
       - '3306:3306'
     command: --default-authentication-plugin=mysql_native_password
     volumes:
       - ./docker/mysql/conf.d/my.cnf:/etc/mysql/conf.d/my.cnf
       - ./docker/mysql/data:/var/lib/mysql
-  web:
-    build: .
-    env_file: docker/.local_env
-    volumes:
-      - .:/dog_find_partner
-    ports:
-      - "3000:3000"
-    links:
-      - db
-    tty: true
-
-
