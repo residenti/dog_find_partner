@@ -11,7 +11,7 @@ default: &default
 development:
   <<: *default
   database: dog_find_partner_development
-  password: <%= MYSQL_ROOT_PASSWORD %>
+  password: <%= ENV['MYSQL_ROOT_PASSWORD'] %>
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
@@ -19,9 +19,9 @@ development:
 test:
   <<: *default
   database: dog_find_partner_test
-  password: <%= SECRET_SETTINGS[:db_password] %>
+  password: <%= ENV['MYSQL_ROOT_PASSWORD'] %>
 
 production:
   <<: *default
   database: dog_find_partner_production
-  password: <%= SECRET_SETTINGS[:db_password] %>
+  password: <%= ENV['MYSQL_ROOT_PASSWORD'] %>
