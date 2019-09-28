@@ -3,10 +3,10 @@
 FROM ruby:2.6
 
 # 必要なパッケージのインストール（基本的に必要になってくるものだと思うので削らないこと）
-RUN apt-get update -qq && \
-    apt-get install -y build-essential \
-                       libpq-dev \
-                       nodejs
+# 最新のyarnを取得
+RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
+RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
+RUN apt-get update -qq && apt-get install -y nodejs yarn
 
 # 作業ディレクトリの作成、設定
 RUN mkdir /dog_find_partner
