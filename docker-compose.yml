@@ -1,0 +1,23 @@
+version: '3'
+services:
+  db:
+    image: mysql:8.0
+    env_file: docker/.local_env
+    ports:
+      - '3306:3306'
+    command: --default-authentication-plugin=mysql_native_password
+    volumes:
+      - ./docker/mysql/conf.d/my.cnf:/etc/mysql/conf.d/my.cnf
+      - ./docker/mysql/data:/var/lib/mysql
+  web:
+    build: .
+    env_file: docker/.local_env
+    volumes:
+      - .:/dog_find_partner
+    ports:
+      - "3000:3000"
+    links:
+      - db
+    tty: true
+
+
